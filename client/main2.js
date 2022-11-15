@@ -53,7 +53,7 @@ const requestNotificationPermission = async () => {
 
     else if (subscription) {
       // si subscription existante 
-      triggerPush.textContent="Vous êtes déjà abonné. Une notifications push vient de vous être envoyée pour rappel "
+      triggerPush.textContent="Vous êtes déjà abonné. Une notifications push vient de vous être envoyée pour rappel "*
       
       console.log("L'utilisateur est déjà abonné");
       await fetch('/subscribe', {
