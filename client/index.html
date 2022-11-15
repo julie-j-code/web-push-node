@@ -7,6 +7,13 @@
   <title>Push Notifications using Node.js and Web Push</title>
   <link rel="icon" type="image/png" href="https://d2cy1obokpvee9.cloudfront.net/manifest/favicon-196x196.png" sizes="196x196" class="next-head">
   <link rel="stylesheet" href="style.css">
+  <script>
+    window.addEventListener("load", () => {
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js");
+      }
+    });
+  </script>
 </head>
 <body>
   <header>
@@ -14,7 +21,7 @@
   </header>
 
   <div class="buttons">
-    <p>Le tout en un puisque le bouton ci-dessous vaut acceptation des notification et déclenche l'envoi d'une notification pour l'exemple</p>
+    <p>Le tout en un puisque le bouton ci-dessous vaut acceptation des notifications et déclenche l'envoi d'une notification pour l'exemple</p>
     <button class="trigger-push">Déclencher une notification</button>
   </div>
 

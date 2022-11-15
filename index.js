@@ -18,6 +18,7 @@ webPush.setVapidDetails('mailto:jeannet.julie@gmail.com', publicVapidKey, privat
 
 // Subscribe route
 app.post('/subscribe', (req, res) => {
+  console.log(req.body);
   const subscription = req.body
 
   res.status(201).json({});
@@ -30,6 +31,16 @@ app.post('/subscribe', (req, res) => {
   webPush.sendNotification(subscription, payload)
     .catch(error => console.error(error));
 });
+
+
+
+// --------------
+
+
+
+
+
+// ----------------
 
 app.set('port', process.env.PORT || 5000);
 const server = app.listen(app.get('port'), () => {
