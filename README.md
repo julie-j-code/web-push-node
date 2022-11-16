@@ -12,11 +12,11 @@
 
 - [Node.js](https://nodejs.org/en) and npm
 
-## Built With
 
-- [web-push](https://github.com/web-push-libs/web-push)
-
-# Source revue et corrigée pour l'exemple :
+# Source revue et corrigée pour l'initiation aux Notifications Push - Voir le commit initial pour la mise en application :
 
 Tutorial: https://pusher.com/tutorials/push-notifications-node-service-workers
+
+
+## Pour afficher les enregistrements de votre base de données SQLite : vscode-sqlite
 

@@ -15,7 +15,6 @@ function urlBase64ToUint8Array(base64String) {
 }
 
 
-
 const publicVapidKey = 'BAMxFPdXCiBKTnxPBb08qqoBjKvLYwUILZWjQ_GNHBZLox4JBZHiOFeJzLEzlPm8ue4KAyV3G69-WJm4TdRp880';
 
 const triggerPush = document.querySelector('.trigger-push');
@@ -23,8 +22,6 @@ const triggerPush = document.querySelector('.trigger-push');
 const requestNotificationPermission = async () => {
   const permission = await Notification.requestPermission()
   console.log("permission", permission);
-
-  // partie 2 
 
   const sw = await navigator.serviceWorker.ready
   if (permission == 'granted') {
@@ -45,8 +42,7 @@ const requestNotificationPermission = async () => {
         headers: {
           'Content-Type': 'application/json',
         }
-      });
-      
+      });      
 
     }
 
@@ -65,34 +61,14 @@ const requestNotificationPermission = async () => {
       });
     }
 
-
-
   }
 
-
-  // dealSubscription(permission)
-  // return permission   
 }
-
-// partie 3
-
-// const dealSubscription = async (subscription) => {
-//   await fetch('/subscribe', {
-//     method: 'POST',
-//     body: JSON.stringify(subscription),
-//     headers: {
-//       'Content-Type': 'application/json',
-//     }
-//   });
-// }
 
 triggerPush.addEventListener('click', () => {
   requestNotificationPermission().catch(error => console.error(error));
 });
 
-// send.addEventListener('click', () => {
-//   dealSubscription().catch(error => console.error(error));
-// });
 
 
 
