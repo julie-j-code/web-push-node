@@ -93,6 +93,13 @@ db.run(
   }
 );
 
+// nous enverrons une requête get au point de terminaison du blog pour obtenir les blogs de notre backend
+app.get("/blogs", (req, res) => {
+  res.status(200).json({
+    blogs,
+  });
+});
+
 
 
 

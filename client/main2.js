@@ -42,16 +42,16 @@ const requestNotificationPermission = async () => {
         headers: {
           'Content-Type': 'application/json',
         }
-      });      
+      });
 
     }
 
 
     else if (subscription) {
       // si subscription existante 
-      triggerPush.textContent="Vous êtes déjà abonné. Une notifications push vient de vous être envoyée pour rappel "*
-      
-      console.log("L'utilisateur est déjà abonné");
+      triggerPush.textContent = "Vous êtes déjà abonné. Une notifications push vient de vous être envoyée pour rappel " *
+
+        console.log("L'utilisateur est déjà abonné");
       await fetch('/subscribe', {
         method: 'POST',
         body: JSON.stringify(subscription),
@@ -70,6 +70,27 @@ triggerPush.addEventListener('click', () => {
 });
 
 
+// Pour tester le rendu des enregistrements dans sqlite, nous parcourons les blogs, ciblons la div de classe .conteneur et les affichons.
 
+let result = "";
+fetch("http://localhost:5000/blogs")
+  .then((res) => res.json())
+  .then((data) => {
+    (Object.values(data)).forEach((table) => {
+      table.forEach(row => {
+        result += `
+       <div class="card">
+            <img class="card-avatar" src="${row.avatar}"/>
+            <h1 class="card-title">${row.title}</h1>
+            <p class="intro">${row.intro}</p>
+            <a class="card-link" href="#">Read</a>
+        </div>
+       `;
+      })
+    });
 
-
+    document.querySelector(".container").innerHTML = result;
+  })
+  .catch((e) => {
+    console.log(e);
+  });
