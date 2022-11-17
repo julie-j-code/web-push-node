@@ -15,9 +15,8 @@ body {
 
 p, h1, h2{
   margin:2rem;
+  text-align: center
 }
-
-h2{text-align: center;}
 
 header {
   width: 100%;

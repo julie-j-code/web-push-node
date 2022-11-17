@@ -105,10 +105,25 @@ function load() {
 }
 
 // pour le cas du offline
-window.addEventListener("offline", message);
+window.addEventListener("offline", renderOffline());
 
-function message() {
-  document.querySelector(".container").innerHTML = "<h2>Vous êtes actuellement Hors Ligne</h2>";
+function renderOffline() {
+  console.log("Vous êtes actuellement Hors Ligne");
+  let resultOffline = ""
+  let dataOffline = JSON.parse(localStorage.getItem('blogStockagePWA')) || [];
+  console.log(dataOffline);
+  // on peut maintenant boucler sur resultOffline presque à l'identique du result online
+  dataOffline.forEach((row) => {
+    resultOffline += ` <div class="card">
+  <img class="card-avatar" src="${row.avatar}"/>
+  <h1 class="card-title">${row.title}</h1>
+  <p class="intro">${row.intro}</p>
+  <a class="card-link" href="#">Read</a>
+</div>  `
+
+  })
+
+  document.querySelector(".container").innerHTML = resultOffline;
 
 }
 
