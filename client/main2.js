@@ -72,13 +72,13 @@ triggerPush.addEventListener('click', () => {
 
 // On va tenter de déléguer à ce fichier la tâche de servir ou non du contenu, en fonction de l'état de la connexion
 window.addEventListener("online", load());
-function load(){
+function load() {
 
-  // Pour tester le rendu des enregistrements dans sqlite, nous parcourons les blogs, ciblons la div de classe .conteneur et les affichons.
   let result = "";
   fetch("http://localhost:5000/blogs")
     .then((res) => res.json())
     .then((data) => {
+      // Je récupère la data pour l'injecter dans .container
       (Object.values(data)).forEach((table) => {
         table.forEach(row => {
           result += `
@@ -90,8 +90,13 @@ function load(){
           </div>
          `;
         })
+
+        // Je profite d'avoir du jus et accès à data pour faire une sauvegarde dans localStorage
+        localStorage.setItem('blogStockagePWA', JSON.stringify(table))
+
       });
-  
+
+
       document.querySelector(".container").innerHTML = result;
     })
     .catch((e) => {
@@ -102,8 +107,11 @@ function load(){
 // pour le cas du offline
 window.addEventListener("offline", message);
 
-function message(){
+function message() {
   document.querySelector(".container").innerHTML = "<h2>Vous êtes actuellement Hors Ligne</h2>";
 
 }
+
+// pour la création d'un cache dédié dans localStorage (pourquoi )
+// window.addEventListener("load", localStorage.setItem('blogs', []))
 
