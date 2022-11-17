@@ -13,9 +13,11 @@ body {
   font-family: "Roboto", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-p{
+p, h1, h2{
   margin:2rem;
 }
+
+h2{text-align: center;}
 
 header {
   width: 100%;
@@ -76,6 +78,7 @@ button:hover {
   width: 15rem auto;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   margin: auto;
+  padding:1rem;
   overflow: hidden;
 }
 .card-avatar {

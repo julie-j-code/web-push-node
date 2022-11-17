@@ -70,27 +70,40 @@ triggerPush.addEventListener('click', () => {
 });
 
 
-// Pour tester le rendu des enregistrements dans sqlite, nous parcourons les blogs, ciblons la div de classe .conteneur et les affichons.
+// On va tenter de déléguer à ce fichier la tâche de servir ou non du contenu, en fonction de l'état de la connexion
+window.addEventListener("online", load());
+function load(){
 
-let result = "";
-fetch("http://localhost:5000/blogs")
-  .then((res) => res.json())
-  .then((data) => {
-    (Object.values(data)).forEach((table) => {
-      table.forEach(row => {
-        result += `
-       <div class="card">
-            <img class="card-avatar" src="${row.avatar}"/>
-            <h1 class="card-title">${row.title}</h1>
-            <p class="intro">${row.intro}</p>
-            <a class="card-link" href="#">Read</a>
-        </div>
-       `;
-      })
+  // Pour tester le rendu des enregistrements dans sqlite, nous parcourons les blogs, ciblons la div de classe .conteneur et les affichons.
+  let result = "";
+  fetch("http://localhost:5000/blogs")
+    .then((res) => res.json())
+    .then((data) => {
+      (Object.values(data)).forEach((table) => {
+        table.forEach(row => {
+          result += `
+         <div class="card">
+              <img class="card-avatar" src="${row.avatar}"/>
+              <h1 class="card-title">${row.title}</h1>
+              <p class="intro">${row.intro}</p>
+              <a class="card-link" href="#">Read</a>
+          </div>
+         `;
+        })
+      });
+  
+      document.querySelector(".container").innerHTML = result;
+    })
+    .catch((e) => {
+      console.log(e);
     });
+}
 
-    document.querySelector(".container").innerHTML = result;
-  })
-  .catch((e) => {
-    console.log(e);
-  });
+// pour le cas du offline
+window.addEventListener("offline", message);
+
+function message(){
+  document.querySelector(".container").innerHTML = "<h2>Vous êtes actuellement Hors Ligne</h2>";
+
+}
+
