@@ -1,5 +1,8 @@
 {
     "name": "Tutoriel PWA Notifications Push",
+    "background_color": "#073525",
+    "theme_color": "#11D771",
+    "orientation": "portrait",
     "icons": [
       {
         "src": "/img/icons/512.png",
