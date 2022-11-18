@@ -16,6 +16,8 @@ function urlBase64ToUint8Array(base64String) {
 
 
 const publicVapidKey = 'BAMxFPdXCiBKTnxPBb08qqoBjKvLYwUILZWjQ_GNHBZLox4JBZHiOFeJzLEzlPm8ue4KAyV3G69-WJm4TdRp880';
+const appServerKeyToStock = urlBase64ToUint8Array(publicVapidKey)
+console.log(appServerKeyToStock);
 
 const triggerPush = document.querySelector('.trigger-push');
 
@@ -29,12 +31,19 @@ const requestNotificationPermission = async () => {
     let subscription = await sw.pushManager.getSubscription();
 
     if (!subscription) {
-      subscription = await sw.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
-      })
 
-      console.log('acceptance complete', subscription);
+      subscription = await sw.pushManager.subscribe(
+        {
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
+        }
+      )
+
+      console.log('acceptance complete, on enregistre', subscription);
+      // ici, on devrait pouvoir enregistrer subscription, ici dans localStorage, plus tard dans sqlite...
+      localStorage.setItem('subscriptionStockagePWA',
+        JSON.stringify(subscription)
+      )
 
       await fetch('/subscribe', {
         method: 'POST',
@@ -49,17 +58,36 @@ const requestNotificationPermission = async () => {
 
     else if (subscription) {
       // si subscription existante 
-      triggerPush.textContent = "Vous êtes déjà abonné. Une notifications push vient de vous être envoyée pour rappel " *
+      triggerPush.textContent = "Vous êtes déjà abonné "
+      console.log("L'utilisateur est déjà abonné");
+      // on doit sûrement ici pouvoir faire une distinction, selon qu'on se trouve online ou offline
+      // 1 - offline
+      if (!window.navigator.onLine) {
+        // alert("vous êtes déconnecté")
+        triggerPush.textContent = "Vous êtes déjà abonné, mais actuellement hors ligne "
+        let offlineSubscription = JSON.parse(localStorage.getItem("subscriptionStockagePWA"))
+        console.log("offlineSubscription", offlineSubscription)
+        // await fetch('/subscribe', {
+        //   method: 'POST',
+        //   body: JSON.stringify(offlineSubscription),
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   }
+        // })
+      }
+      // si - online, on change rien
+      // else {
+        await fetch('/subscribe', {
+          method: 'POST',
+          body: JSON.stringify(subscription),
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
 
-        console.log("L'utilisateur est déjà abonné");
-      await fetch('/subscribe', {
-        method: 'POST',
-        body: JSON.stringify(subscription),
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      });
-    }
+      }
+
+    // }
 
   }
 
@@ -95,7 +123,6 @@ function load() {
         localStorage.setItem('blogStockagePWA', JSON.stringify(table))
 
       });
-
 
       document.querySelector(".container").innerHTML = result;
     })
